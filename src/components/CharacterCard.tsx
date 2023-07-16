@@ -239,10 +239,16 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       }
     }
 
+
+    const Display: string[] = ["HP", "ATK", "DEF", "SPD", "CRIT Rate", "CRIT DMG", "Break Effect", "Outgoing Healing Boost", "Energy Regeneration Rate", "Effect Hit Rate", "Effect RES", Element + " DMG Boost"];
+    const DisplayURL: string[] = ["MaxHP", "Attack", "Defence", "Speed", "CriticalChance", "CriticalDamage", "BreakUp", "HealRatio", "EnergyRecovery", "StatusProbability", "StatusResistance", ElementId + "AddedRatio"];
     const attributes: {[key : string] : {image: HTMLImageElement, value: number}} = {};
 
     for (let i = 0; i < character.attributes.length; ++i) {
       attributes[character.attributes[i].name] = {image: new Image(), value: character.attributes[i].value};
+      // energy recharge
+      if (character.attributes[i].name === Display[8]) attributes[Display[8]].value += 1;
+      
       attributes[character.attributes[i].name].image.src = character.attributes[i].icon;
       attributes[character.attributes[i].name].image.setAttribute("crossOrigin", "anonymous");
     }
@@ -250,6 +256,9 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
     for (let i = 0; i < character.additions.length; ++i) {
       if (attributes[character.additions[i].name] === undefined) {
         attributes[character.additions[i].name] = {image: new Image(), value: character.additions[i].value};
+        // energy recharge
+        if (character.additions[i].name === Display[8]) attributes[Display[8]].value += 1;
+
         attributes[character.additions[i].name].image.src = character.additions[i].icon;
         attributes[character.additions[i].name].image.setAttribute("crossOrigin", "anonymous");
       } else {
@@ -257,8 +266,6 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       }
     }
 
-    const Display: string[] = ["HP", "ATK", "DEF", "SPD", "CRIT Rate", "CRIT DMG", "Break Effect", "Outgoing Healing Boost", "Energy Regeneration Rate", "Effect Hit Rate", "Effect RES", Element + " DMG Boost"];
-    const DisplayURL: string[] = ["MaxHP", "Attack", "Defence", "Speed", "CriticalChance", "CriticalDamage", "BreakUp", "HealRatio", "EnergyRecovery", "StatusProbability", "StatusResistance", ElementId + "AddedRatio"];
     
     const attributeUp = lightConeY + 15;
     const attributeLeft = lightConeLeft;
