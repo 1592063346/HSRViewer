@@ -1,6 +1,6 @@
 @font-face {  
   font-family: HanYiWenHei-85W;  
-  src: url('../../public/fonts/zh-cn.ttf');
+  src: url('/asset/zh-cn.ttf');
 }
 
 html,
@@ -9,7 +9,7 @@ body {
   margin: 0;
   font-family: "HanYiWenHei-85W", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-image:url(../../public/background.png);
+  background-image:url(/asset/background.png);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
