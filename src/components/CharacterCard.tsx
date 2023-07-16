@@ -182,6 +182,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
 
     if (!character.light_cone) {
       context!.fillStyle="#FFFFFF";
+      context!.font = "20px HanYiWenHei-85W";
       context!.fillText("No Light Cone.", lightConeCenterX, lightConeCenterY);
     } else {
       const lightConeImage = new Image();
