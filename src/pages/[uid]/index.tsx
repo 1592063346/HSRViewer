@@ -58,7 +58,7 @@ const InfoPage = () => {
         <div style={{ margin: "auto" }}>
           <Space>
             <MyButton text="BACK" onClick={() => router.push("/")}/>
-            <MyButton text="TRY AGAIN?"/>
+            <MyButton text="TRY AGAIN?" onClick={() => setCode(0)}/>
           </Space>
         </div>
       </Row>

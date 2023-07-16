@@ -9,7 +9,7 @@ body {
   margin: 0;
   font-family: "HanYiWenHei-85W", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-image:url(/asset/background.png);
+  background-image: url(/asset/background.png);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
