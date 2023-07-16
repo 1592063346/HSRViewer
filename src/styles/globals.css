@@ -1,0 +1,45 @@
+@font-face {  
+  font-family: HanYiWenHei-85W;  
+  src: url('../../public/fonts/zh-cn.ttf');
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "HanYiWenHei-85W", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-image:url(../../public/background.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.normalTitle {
+  margin: 3% 0 0 0;
+}
+
+.spin {
+  margin: 3% 0 0 3%;
+}
+
+.h5Title {
+  margin: 2% 0 0 0;
+}
+
+.subtitle {
+  margin: 1% 0 0 0;
+}
+
+.pageBody {
+  min-height: 100%;
+}
