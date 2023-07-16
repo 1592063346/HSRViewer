@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import { lockSvg } from "../constants/svgs";
-import { ASSET_URL } from "../constants/constants";
 import { getImageLocal, LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
 import { MyButton } from "./MyButton";
 import { Divider, Space } from "antd";
@@ -278,7 +277,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       if (attributes[Display[i]] === undefined) {
         attributes[Display[i]] = {image: new Image(), value: 0};
         attributes[Display[i]].image.setAttribute("crossOrigin", "anonymous");
-        attributes[Display[i]].image.src = ASSET_URL + "/icon/property/Icon" + DisplayURL[i] + ".png";
+        attributes[Display[i]].image.src = "/srasset/icon/property/Icon" + DisplayURL[i] + ".png";
       }
       attributes[Display[i]].image.onload = () => {
         if (i % 2 === 0) {
@@ -304,7 +303,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         attributes[Display[i]].image.setAttribute("crossOrigin", "anonymous");
         // energy recharge
         if (i === 8) attributes[Display[i]].value = 1;
-        attributes[Display[i]].image.src = ASSET_URL + "/icon/property/Icon" + DisplayURL[i] + ".png";
+        attributes[Display[i]].image.src = "/srasset/icon/property/Icon" + DisplayURL[i] + ".png";
       }
       attributes[Display[i]].image.onload = () => {
         context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + (i - 3) * attributeSpace, attributeSize, attributeSize);
