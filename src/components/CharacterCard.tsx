@@ -52,7 +52,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
     star.src = "/srasset/icon/rarity/rarity-" + rarity + "-star.png";
 
     star.onload = () => {
-      context.drawImage(star, cx - r, cy - r, 2 * r, 2 * r);
+      context.drawImage(star, cx - r, cy - r, 2 * (r + 1), 2 * (r + 1));
     };
     
   };
