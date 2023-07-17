@@ -267,8 +267,9 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
     
     const attributeUp = lightConeY + 15;
     const attributeLeft = lightConeLeft;
-    const attributeCol = 220;
-    const attributeMid = attributeLeft + attributeCol;
+    const attributeLeftCol = 180;
+    const attributeRightCol = 260;
+    const attributeMid = attributeLeft + attributeLeftCol;
     const attributeSpace = 45;
 
     // 2 columns
@@ -279,19 +280,19 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         attributes[Display[i]].image.src = "/srasset/icon/property/Icon" + DisplayURL[i] + ".png";
       }
       attributes[Display[i]].image.onload = () => {
-        if (i % 2 === 0) {
-          context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + i / 2 * attributeSpace, attributeSize, attributeSize);
+        if (i < 3) {
+          context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + i * attributeSpace, attributeSize, attributeSize);
         } else {
-          context!.drawImage(attributes[Display[i]].image, attributeMid, attributeUp + (i - 1) / 2 * attributeSpace, attributeSize, attributeSize);
+          context!.drawImage(attributes[Display[i]].image, attributeMid, attributeUp + (i - 3) * attributeSpace, attributeSize, attributeSize);
         }
         context!.font = "18px HanYiWenHei-85W";
         context!.fillStyle = "rgba(255, 255, 255, 1)";
-        if (i % 2 === 0) {
-          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + i / 2 * attributeSpace + 25);
-          context!.fillText(Display[i], attributeLeft + attributeSize, attributeUp + i / 2 * attributeSpace + 25);
+        if (i < 3) {
+          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + i * attributeSpace + 25);
+          context!.fillText(Display[i], attributeLeft + attributeSize, attributeUp + i * attributeSpace + 25);
         } else {
-          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid + attributeCol - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + (i - 1) / 2 * attributeSpace + 25);
-          context!.fillText(Display[i], attributeMid + attributeSize, attributeUp + (i - 1) / 2 * attributeSpace + 25);
+          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid + attributeRightCol - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + (i - 3) * attributeSpace + 25);
+          context!.fillText(Display[i], attributeMid + attributeSize, attributeUp + (i - 3) * attributeSpace + 25);
         }
       };
     }
@@ -308,12 +309,12 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + (i - 3) * attributeSpace, attributeSize, attributeSize);
         context!.font = "18px HanYiWenHei-85W";
         context!.fillStyle = "rgba(255, 255, 255, 1)";
-        context!.fillText(formatToRadio(attributes[Display[i]].value), attributeMid + attributeCol - 10 - context!.measureText(formatToRadio(attributes[Display[i]].value)).width, attributeUp + (i - 3) * attributeSpace + 25);
+        context!.fillText(formatToRadio(attributes[Display[i]].value), attributeMid + attributeRightCol - 10 - context!.measureText(formatToRadio(attributes[Display[i]].value)).width, attributeUp + (i - 3) * attributeSpace + 25);
         context!.fillText(Display[i], attributeLeft + attributeSize, attributeUp + (i - 3) * attributeSpace + 25);
       };
     }
     
-    const relicLeft = attributeLeft + 2 * attributeCol + 25;
+    const relicLeft = attributeLeft + attributeLeftCol + attributeRightCol + 25;
     const relicUp = 20;
     const relicSpace = 97;
     const relicSize = 90;
