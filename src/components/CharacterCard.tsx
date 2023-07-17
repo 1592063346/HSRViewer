@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { lockSvg } from "../constants/svgs";
-import { getImageLocal, LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
+import { LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
 import { MyButton } from "./MyButton";
 import { Divider, Space } from "antd";
 
