@@ -47,14 +47,14 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
     }
   };
 
-  const drawStar = (context: any, cx: number, cy: number, r: number, color: string) => {
-    context!.beginPath();
-    context!.arc(cx + r, cy + r, r, Math.PI, 1.5 * Math.PI);
-    context!.arc(cx + r, cy - r, r, 0.5 * Math.PI, Math.PI);
-    context!.arc(cx - r, cy + r, r, 1.5 * Math.PI, 2 * Math.PI);
-    context!.arc(cx - r, cy - r, r, 0, 0.5 * Math.PI);
-    context!.fillStyle = color;
-    context!.fill();
+  const drawStar = (context: any, cx: number, cy: number, r: number, rarity: number) => {
+    const star = new Image();
+    star.src = "/srasset/icon/rarity/rarity-" + rarity + "-star.png";
+
+    star.onload = () => {
+      context.drawImage(star, cx - r, cy - r, 2 * r, 2 * r);
+    };
+    
   };
 
   const download = (canvas: any) => {
@@ -192,7 +192,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       lightConeImage.onload = () => {
         context!.drawImage(lightConeImage, lightConeLeft, 0, lightConeX, lightConeY);
         for (let i = 0; i < character.light_cone.rarity; ++i) {
-          drawStar(context, lightConeLeft + 18 + 12 * i, 165, 7, RarityRGB[5]);
+          drawStar(context, lightConeLeft + 18 + 12 * i, 165, 7, 5);
         }
       };
 
@@ -342,7 +342,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         relics[pos].image.onload = () => {
           context!.drawImage(relics[i].image, relicLeft, relicUp + pos * relicSpace, relicSize, relicSize);
           for (let j = 0; j < character.relics[i].rarity; ++j) {
-            drawStar(context, relicLeft, relicUp + pos * relicSpace + relicSpace - 20 - j * 2 * starSize, starSize, RarityRGB[character.relics[i].rarity]);
+            drawStar(context, relicLeft, relicUp + pos * relicSpace + relicSpace - 20 - j * 2 * starSize, starSize, character.relics[i].rarity);
           }
           context!.font = "18px HanYiWenHei-85W";
           context!.fillStyle = "rgba(255, 255, 255, 1)";
