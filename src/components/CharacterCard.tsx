@@ -239,7 +239,6 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       }
     }
 
-
     const Display: string[] = ["HP", "ATK", "DEF", "SPD", "CRIT Rate", "CRIT DMG", "Break Effect", "Outgoing Healing Boost", "Energy Regeneration Rate", "Effect Hit Rate", "Effect RES", Element + " DMG Boost"];
     const DisplayURL: string[] = ["MaxHP", "Attack", "Defence", "Speed", "CriticalChance", "CriticalDamage", "BreakUp", "HealRatio", "EnergyRecovery", "StatusProbability", "StatusResistance", ElementId + "AddedRatio"];
     const attributes: {[key : string] : {image: HTMLImageElement, value: number}} = {};
@@ -265,7 +264,6 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         attributes[character.additions[i].name].value += character.additions[i].value;
       }
     }
-
     
     const attributeUp = lightConeY + 15;
     const attributeLeft = lightConeLeft;

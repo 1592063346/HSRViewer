@@ -33,17 +33,17 @@ export const Player = ({ data }: any) => {
         <Col span={16} style={{ color: "white" }}>
           <Avatar size={112} src={data.player.avatar.icon} />
           <Space direction="vertical">
-            <div style={{ fontSize: 36 }}>{data.player.nickname}</div>
-            <div style={{ fontSize: 18, color: "rgb(185, 185, 185)" }}>{data.player.signature}</div>
+            <div style={{ fontSize: 36 }} className="shadowText">{data.player.nickname}</div>
+            <div style={{ fontSize: 18, color: "rgb(185, 185, 185)" }} className="shadowText">{data.player.signature}</div>
           </Space>
         </Col>
       </Row>
       <Row justify="center" className="subtitle">
         <Col span={16} style={{ color: "rgb(215, 215, 215)" }}>
           <Space direction="horizontal" size={36}>
-            <div style={{ fontSize: 20 }}>Trailblaze Level: {data.player.level}</div>
-            <div style={{ fontSize: 20 }}>Equilibrium Level: {data.player.world_level}</div>
-            <div style={{ fontSize: 20 }}>Achievements: {data.player.space_info.achievement_count}</div>
+            <div style={{ fontSize: 20 }} className="shadowText">Trailblaze Level: {data.player.level}</div>
+            <div style={{ fontSize: 20 }} className="shadowText">Equilibrium Level: {data.player.world_level}</div>
+            <div style={{ fontSize: 20 }} className="shadowText">Achievements: {data.player.space_info.achievement_count}</div>
           </Space>
         </Col>
       </Row>

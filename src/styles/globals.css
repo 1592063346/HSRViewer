@@ -43,3 +43,7 @@ a {
 .pageBody {
   min-height: 100%;
 }
+
+.shadowText {
+  text-shadow: rgb(24, 22, 22) 4px 4px 7px;
+}
