@@ -88,7 +88,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
 
     characterImage.onload = () => {
       console.log(character.id);
-      context!.drawImage(characterImage, getImageLocal(character.id)[0], getImageLocal(character.id)[1], (CharacterX * 1024 / CardY / 2) * 2, 1024, 0, 0, CharacterX, CardY);
+      context!.drawImage(characterImage, 0, 0, 1024, 1024, 0, 0, CardY, CardY);
       const myGradient = context!.createLinearGradient(0, 0, CharacterX * 0.3, 0);
       myGradient.addColorStop(0, "rgba(50, 50, 50, 0.5)");
       myGradient.addColorStop(1, "rgba(50, 50, 50, 0)");
