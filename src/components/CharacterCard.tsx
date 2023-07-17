@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { lockSvg } from "../constants/svgs";
 import { LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
 import { MyButton } from "./MyButton";
@@ -11,6 +11,7 @@ interface characterCardProps {
 
 const CharacterCard = ({ character, player } : characterCardProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [fresh, setFresh] = useState<boolean>(false);
 
   const formatToInt = (value: number) => {
     return value.toFixed(0);
@@ -378,14 +379,15 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         }
       }
     }
-  }, [character]);
+  }, [character, fresh]);
 
   return (
     <Space direction="vertical">
       <canvas ref={canvasRef} width={CardX} height={CardY} style={{width: CardX / scale, height: CardY / scale}} />
       <Space>
+        <MyButton text="REFRESH" onClick={() => setFresh(!fresh)} />
         <MyButton text="DOWNLOAD" onClick={() => download(canvasRef.current)} />
-        <div style={{ fontSize: 16, color: "rgb(185, 185, 185)" }}>P.S. Please wait until the image is completely loaded.</div>
+        <div style={{ fontSize: 16, color: "rgb(185, 185, 185)" }}>P.S. Please download after the image has been completely loaded.</div>
       </Space>
       <Divider />
     </Space>
