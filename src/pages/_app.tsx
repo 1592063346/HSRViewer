@@ -26,6 +26,11 @@ const App = ({ Component, pageProps }: AppProps) => {
     },
     { 
       key: "2",
+      label: <div style={{ color: "white", fontSize: 18 }}>PVP</div>,
+      onClick: () => router.push("/pvp")
+    },
+    { 
+      key: "3",
       label: <div style={{ color: "white", fontSize: 18 }}>ABOUT</div>,
       onClick: () => router.push("/about")
     }
@@ -42,7 +47,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <Space>
             <Dropdown
               menu={{ items }}
-              dropdownRender={(menus) => {
+              dropdownRender={() => {
                 const nodes: any = [];
                 items.forEach((value) => {
                   nodes.push(
@@ -70,7 +75,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             </Button>
           </Space>
           <div style={{ marginLeft: "auto" }}>
-            <MySearch setHook={setInputUid} onSearch={onSearch}/>
+            <MySearch setHook={setInputUid} onSearch={onSearch} placeholder="Enter UID..."/>
           </div>
         </Header>
         <Content style={contentStyle}>

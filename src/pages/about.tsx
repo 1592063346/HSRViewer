@@ -16,7 +16,7 @@ const aboutPage = () => {
         </Row>
         <Row key='2' justify="center" className='h5Title'>
           <Col span={16}>
-            {titleSlice(20, "HSRViewer is a web that allows you to view and download your Honkai: Star Rail character build cards, where the design of the cards is as simple and beautiful as possible.")}
+            {titleSlice(20, "HSRViewer is a website that allows you to view and download your Honkai: Star Rail character build cards, where the design of the cards is as simple and beautiful as possible. A certain degree of PVP function is also attached.")}
           </Col>
         </Row>
         <Row key='3' justify="center" className='subtitle'>

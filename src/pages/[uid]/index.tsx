@@ -48,13 +48,13 @@ const InfoPage = () => {
 
   const err = (
     <>
-      <Row justify="center" className='h5Title'>
+      <Row key='1' justify="center" className='h5Title'>
         <Col span={16}>
           {titleSlice(40, "Oops! Something went wrong...")}
           {titleSlice(20, "Try to check if the UID you entered is valid?")}
         </Col>
       </Row>
-      <Row justify="center" className='h5Title'>
+      <Row key='2' justify="center" className='h5Title'>
         <div style={{ margin: "auto" }}>
           <Space>
             <MyButton text="BACK" onClick={() => router.push("/")}/>

@@ -34,7 +34,7 @@ const HomePage = () => {
         </Row>
         <Row key='3' justify="center" className='normalTitle'>
           <div style={{ margin: "auto" }}>
-            <MySearch setHook={setInputUid} onSearch={onSearch}/>
+            <MySearch setHook={setInputUid} onSearch={onSearch} placeholder="Enter UID..."/>
           </div>
         </Row>
       </QueueAnim>
