@@ -122,7 +122,7 @@ const InfoPage = () => {
         </Col>
       </Row>
       <Row key='2' justify="center" className='h5Title'>
-        <Col span={23}>
+        <Col span={22}>
           <CharacterComp
             player1={data1.player}
             player2={data2.player}
