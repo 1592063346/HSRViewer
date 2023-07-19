@@ -25,7 +25,7 @@ cd ../..
 Finally, install dependencies, build and run successfully.
 
 ```bash
-cd HSRViewer
+cd ~/HSRViewer
 yarn install
 yarn build
 yarn start
