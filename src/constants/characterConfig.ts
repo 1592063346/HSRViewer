@@ -8,6 +8,7 @@ export const characterOptions = [
   { key: '1008', value: '1008', label: 'Arlan' },
   { key: '1009', value: '1009', label: 'Asta' },
   { key: '1211', value: '1211', label: 'Bailu' },
+  { key: '1205', value: '1205', label: 'Blade' },
   { key: '1101', value: '1101', label: 'Bronya' },
   { key: '1107', value: '1107', label: 'Clara' },
   { key: '1002', value: '1002', label: 'Dan Heng' },
