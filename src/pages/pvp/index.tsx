@@ -19,8 +19,8 @@ const HomePage = () => {
 
   const go = () => {
     let path: string = "/pvp/show?";
-    path += "uid1=" + inputUid1 + '&';
-    path += "uid2=" + inputUid2 + '&';
+    path += "uid1=" + inputUid1 + "&";
+    path += "uid2=" + inputUid2 + "&";
     path += "id=" + inputCharacterId;
     router.push(path);
   };

@@ -34,7 +34,7 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
     } else {
       return "+" + foo;
     }
-  }
+  };
 
   const drawDetail = (context: CanvasRenderingContext2D, character: any, player: any, character2: any, sx: number, sy: number) => {
     const lightConeLeft = sx + 18;
@@ -164,7 +164,7 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
         context!.fillText(bar, sx + detailSize - 10 - barWidth, attributeUp + (i) * attributeSpace + 25);
       };
     }
-  }
+  };
 
   useEffect(() => {
     const characterImage = new Image();

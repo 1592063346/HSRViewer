@@ -20,7 +20,7 @@ export const MySelect = ({ setHook }: any) => {
     // bordered={false}
     placeholder="Select character"
     allowClear={false}
-    defaultValue={['1008']}
+    defaultValue={["1008"]}
     onChange={(value) => setHook(value)}
   />;
 };
