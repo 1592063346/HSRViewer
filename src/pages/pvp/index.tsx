@@ -40,7 +40,7 @@ const HomePage = () => {
         </Row>
         <Row key='3' justify="center" className='subtitle'>
           <Col span={16}>
-            {titleSlice(20, "1. For some reason, trailblazer is not supported in this function now.")}
+            {titleSlice(20, "1. For some reason, Trailblazer is not supported in this function now.")}
             {titleSlice(20, "2. Please be objective about the comparison results.")}
           </Col>
         </Row>

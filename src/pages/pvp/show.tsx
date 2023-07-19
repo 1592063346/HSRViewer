@@ -14,7 +14,7 @@ const InfoPage = () => {
 
   const [data1, setData1] = useState<any>({});
   const [data2, setData2] = useState<any>({});
-  /* code: 0 = waiting, 1 = ok, 2 = err */
+  /* code: (<3) = waiting, 3 = ok, (>3) = err */
   const [code, setCode] = useState<number>(0);
   const [card, setCard] = useState<ReactNode>(<></>);
 
@@ -26,9 +26,8 @@ const InfoPage = () => {
     setCode(0);
   }, [router]);
 
-  const setOk = () => setCode(1);
-  const setErr = () => setCode(2);
-  const isGoing = () => { return code === 0; };
+  const setOk = () => setCode(3);
+  const setErr = () => setCode(4);
 
   const cat = async (uid: string, setData: any) => {
     try {
@@ -38,6 +37,7 @@ const InfoPage = () => {
           .then((result) => {
             if (result) {
               setData(result);
+              setCode(code => code + 1);
             }
           });
       } else {
@@ -50,57 +50,48 @@ const InfoPage = () => {
 
   useEffect(() => {
     if (code === 0) {
-      cat(router.query.uid1 as string, setData1)
-        .then(() => {
-          if (!isGoing()) {
-            return;
-          }
-          cat(router.query.uid2 as string, setData2)
-            .then(() => {
-              if (!isGoing()) {
-                return;
-              }
-              if (!data1.characters || !data2.characters) {
-                setErr();
-                return;
-              }
-              console.log(data1);
-              let found = false;
-              let character1 = {};
-              let character2 = {};
-              const id = router.query.id as unknown as number;
-              for (let i = 0; i < data1.characters.length; ++i) {
-                if (data1.characters[i].id === id) {
-                  found = true;
-                  character1 = data1.characters[i];
-                  break;
-                }
-              }
-              if (!found) {
-                setErr();
-                return;
-              }
-              found = false;
-              for (let i = 0; i < data2.characters.length; ++i) {
-                if (data2.characters[i].id === id) {
-                  found = true;
-                  character2 = data2.characters[i];
-                  break;
-                }
-              }
-              if (!found) {
-                setErr();
-                return;
-              }
-              setCard(<CharacterComp
-                player1={data1.player}
-                player2={data2.player}
-                character1={character1}
-                character2={character2}
-              />);
-              setOk();
-            });
-        });
+      cat(router.query.uid1 as string, setData1);
+      cat(router.query.uid2 as string, setData2);
+    } else if (code === 2) {
+      if (!data1.characters || !data2.characters) {
+        setErr();
+        return;
+      }
+      console.log(data1);
+      let found = false;
+      let character1 = {};
+      let character2 = {};
+      const id = router.query.id as unknown as number;
+      for (let i = 0; i < data1.characters.length; ++i) {
+        if (data1.characters[i].id === id) {
+          found = true;
+          character1 = data1.characters[i];
+          break;
+        }
+      }
+      if (!found) {
+        setErr();
+        return;
+      }
+      found = false;
+      for (let i = 0; i < data2.characters.length; ++i) {
+        if (data2.characters[i].id === id) {
+          found = true;
+          character2 = data2.characters[i];
+          break;
+        }
+      }
+      if (!found) {
+        setErr();
+        return;
+      }
+      setCard(<CharacterComp
+        player1={data1.player}
+        player2={data2.player}
+        character1={character1}
+        character2={character2}
+      />);
+      setOk();
     }
   }, [code]);
 
@@ -109,7 +100,7 @@ const InfoPage = () => {
       <Row key='1' justify="center" className='h5Title'>
         <Col span={16}>
           {titleSlice(40, "Oops! Something went wrong...")}
-          {titleSlice(20, "Try to check if the UID you entered is valid or if both players show the character you select?")}
+          {titleSlice(20, "Try to check if the UID you entered is valid, or if both players show the character you selected.")}
         </Col>
       </Row>
       <Row key='2' justify="center" className='h5Title'>
@@ -140,7 +131,7 @@ const InfoPage = () => {
   );
 
   return <>
-    {code === 0 ? waiting : code === 1 ? ok : err}
+    {code < 3 ? waiting : code === 3 ? ok : err}
   </>;
 };
 

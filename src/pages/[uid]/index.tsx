@@ -51,7 +51,7 @@ const InfoPage = () => {
       <Row key='1' justify="center" className='h5Title'>
         <Col span={16}>
           {titleSlice(40, "Oops! Something went wrong...")}
-          {titleSlice(20, "Try to check if the UID you entered is valid?")}
+          {titleSlice(20, "Try to check if the UID you entered is valid.")}
         </Col>
       </Row>
       <Row key='2' justify="center" className='h5Title'>
