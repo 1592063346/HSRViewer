@@ -157,9 +157,9 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
         if (bar === " (-)") {
           context!.fillStyle = "rgba(170, 170, 170, 1)";
         } else if (attributes[Display[i]].value < attributes2[Display[i]].value) {
-          context!.fillStyle = "rgba(255, 0, 0, 1)";
+          context!.fillStyle = "rgba(220, 30, 30, 1)";
         } else {
-          context!.fillStyle = "rgba(0, 255, 0, 1)";
+          context!.fillStyle = "rgba(30, 200, 30, 1)";
         }
         context!.fillText(bar, sx + detailSize - 10 - barWidth, attributeUp + (i) * attributeSpace + 25);
       };
@@ -205,6 +205,15 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
       context!.fillStyle="#FFFFFF";
       context!.font = "24px HanYiWenHei-85W";
       context!.fillText(character1.name, CharacterLeft + (CharacterX - context!.measureText(character1.name).width) / 2, 30);
+
+      const uidLeft = detailSize + 10;
+      const uidRight = detailSize + CharacterX - 10;
+      const uidUp = CardY - 10;
+
+      context!.font = "14px HanYiWenHei-85W";
+      context!.fillStyle = "rgba(255, 255, 255, 1)";
+      context!.fillText(player1.uid, uidLeft, uidUp);
+      context!.fillText(player2.uid, uidRight - context!.measureText(player2.uid).width, uidUp);
 
       const cornerSize = 20;
       context!.roundRect(0, 0, CardX, CardY, cornerSize);
