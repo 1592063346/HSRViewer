@@ -139,7 +139,7 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
     
     const attributeUp = lightConeY + 15;
     const attributeLeft = lightConeLeft;
-    const attributeSpace = 45;
+    const attributeSpace = 42;
 
     for (let i = 0; i < Display.length; ++i) {
       attributes[Display[i]].image.onload = () => {
