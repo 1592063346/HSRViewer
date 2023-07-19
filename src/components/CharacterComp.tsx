@@ -37,7 +37,6 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
   }
 
   const drawDetail = (context: CanvasRenderingContext2D, character: any, player: any, character2: any, sx: number, sy: number) => {
-
     const lightConeLeft = sx + 18;
     const lightConeX = 128 * 1.2;
     const lightConeY = 150 * 1.2;
@@ -111,7 +110,7 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
 
     // init attributes
     for (let i = 0; i < Display.length; ++i) {
-      attributes[Display[i]] = {image: new Image(), value: 1};
+      attributes[Display[i]] = {image: new Image(), value: 0};
       attributes[Display[i]].image.src = "/srasset/icon/property/Icon" + DisplayURL[i] + ".png";
       attributes[Display[i]].image.setAttribute("crossOrigin", "anonymous");
       attributes2[Display[i]] = {value: 0};
@@ -168,7 +167,6 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
   }
 
   useEffect(() => {
-
     const characterImage = new Image();
     characterImage.setAttribute("crossOrigin", "anonymous");
     characterImage.src = character1.portrait;
@@ -184,9 +182,7 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
     const CharacterLeft = detailSize;
     const CharacterX = CardY;
 
-
     characterImage.onload = () => {
-
       context!.drawImage(characterImage, 0, 0, 1024, 1024, CharacterLeft, 0, CardY, CardY);
       const myGradient = context!.createLinearGradient(CharacterLeft, 0, CharacterLeft + CharacterX * 0.3, 0);
       myGradient.addColorStop(0, "rgba(50, 50, 50, 0.5)");
@@ -209,7 +205,6 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
       context!.fillStyle="#FFFFFF";
       context!.font = "24px HanYiWenHei-85W";
       context!.fillText(character1.name, CharacterLeft + (CharacterX - context!.measureText(character1.name).width) / 2, 30);
-
 
       const cornerSize = 20;
       context!.roundRect(0, 0, CardX, CardY, cornerSize);
@@ -295,12 +290,10 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
           context!.fillText(character2.skills[i].level, traceRight - traceSize / 2 - context!.measureText(character2.skills[i].level).width / 2, traceUp + i * traceSpace + traceSize / 2 + 26);
         };
       }
-
     };
 
     drawDetail(context!, character1, player1, character2, 0, 0);
     drawDetail(context!, character2, player2, character1, detailSize + CharacterX, 0);
-
   }, [fresh]);
 
   return (

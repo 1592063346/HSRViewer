@@ -24,6 +24,10 @@ a {
   box-sizing: border-box;
 }
 
+.hugeTitle {
+  margin: 40% 0 0 0;
+}
+
 .normalTitle {
   margin: 3% 0 0 0;
 }

@@ -2,21 +2,23 @@ import { useRouter } from "next/router";
 import { titleSlice } from "../../components/titleSlice";
 import { Row, Col, Spin, Space } from "antd";
 import { MyButton } from "../../components/MyButton";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchUser } from "../../utils/network";
 import { checkUid } from "../../utils/uid";
 import { Language } from "../../components/Language";
 import { LoadingOutlined } from "@ant-design/icons";
 import CharacterComp from "../../components/CharacterComp";
+import { Player } from "../../components/Player";
 
 const InfoPage = () => {
   const router = useRouter();
 
   const [data1, setData1] = useState<any>({});
   const [data2, setData2] = useState<any>({});
+  const [character1, setCharacter1] = useState<any>({});
+  const [character2, setCharacter2] = useState<any>({});
   /* code: (<3) = waiting, 3 = ok, (>3) = err */
   const [code, setCode] = useState<number>(0);
-  const [card, setCard] = useState<ReactNode>(<></>);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -57,15 +59,14 @@ const InfoPage = () => {
         setErr();
         return;
       }
-      console.log(data1);
       let found = false;
-      let character1 = {};
-      let character2 = {};
+      let char1 = {};
+      let char2 = {};
       const id = router.query.id as unknown as number;
       for (let i = 0; i < data1.characters.length; ++i) {
         if (data1.characters[i].id === id) {
           found = true;
-          character1 = data1.characters[i];
+          char1 = data1.characters[i];
           break;
         }
       }
@@ -77,7 +78,7 @@ const InfoPage = () => {
       for (let i = 0; i < data2.characters.length; ++i) {
         if (data2.characters[i].id === id) {
           found = true;
-          character2 = data2.characters[i];
+          char2 = data2.characters[i];
           break;
         }
       }
@@ -85,12 +86,8 @@ const InfoPage = () => {
         setErr();
         return;
       }
-      setCard(<CharacterComp
-        player1={data1.player}
-        player2={data2.player}
-        character1={character1}
-        character2={character2}
-      />);
+      setCharacter1(char1);
+      setCharacter2(char2);
       setOk();
     }
   }, [code]);
@@ -115,7 +112,26 @@ const InfoPage = () => {
   );
 
   const ok = (
-    {card}
+    <>
+      <Row key='1' justify="center" className='subtitle'>
+        <Col span={12}>
+          <Player data={data1}/>
+        </Col>
+        <Col span={12}>
+          <Player data={data2}/>
+        </Col>
+      </Row>
+      <Row key='2' justify="center" className='h5Title'>
+        <Col span={23}>
+          <CharacterComp
+            player1={data1.player}
+            player2={data2.player}
+            character1={character1}
+            character2={character2}
+          />
+        </Col>
+      </Row>
+    </>
   );
 
   const waiting = (

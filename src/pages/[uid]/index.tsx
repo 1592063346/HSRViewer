@@ -66,7 +66,7 @@ const InfoPage = () => {
   );
 
   const ok = (
-    <Player data={data}/>
+    <Player data={data} showBoard={true}/>
   );
 
   const waiting = (
