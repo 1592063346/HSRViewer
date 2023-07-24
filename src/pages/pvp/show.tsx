@@ -10,7 +10,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import CharacterComp from "../../components/CharacterComp";
 import { Player } from "../../components/Player";
 
-const InfoPage = () => {
+const PvpPage = () => {
   const router = useRouter();
 
   const [data1, setData1] = useState<any>({});
@@ -151,4 +151,4 @@ const InfoPage = () => {
   </>;
 };
 
-export default InfoPage;
+export default PvpPage;
