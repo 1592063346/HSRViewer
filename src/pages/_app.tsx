@@ -85,7 +85,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <Space direction="vertical">
             <div>Data-fetch service provided by <a style={{ color: "rgb(152, 168, 184)" }} href="https://api.mihomo.me">Mihomo API</a>.</div>
             <div>Web design based on <a style={{ color: "rgb(152, 168, 184)" }} href="https://enka.network/">Enka.Network</a> (UI style) and <a style={{ color: "rgb(152, 168, 184)" }} href="https://ant.design/index-cn">Ant Design</a> (components).</div>
-            <div>Made by <a style={{ color: "rgb(135, 206, 255)" }} href="https://github.com/kuritas">Kuritas</a> and <a style={{ color: "rgb(135, 206, 255)" }} href="https://github.com/1592063346">Imagine076</a>.</div>
+            <div>Made by <a style={{ color: "rgb(135, 206, 255)" }} href="https://github.com/1592063346">Imagine076</a> and <a style={{ color: "rgb(135, 206, 255)" }} href="https://github.com/kuritas">Kuritas</a>.</div>
           </Space>
         </Footer>
       </Layout>

@@ -18,6 +18,7 @@ export const Player = ({ data, showBoard }: any) => {
   const getMenu = (characterData: any[]) => {
     const menu = [];
     for (let i = 0; i < characterData.length; ++i) {
+      // console.log(characterData[i].icon);
       menu.push(getItem(
         "0" + i,
         <Avatar size={64} src={characterData[i].icon}/>,
