@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { lockSvg } from "../constants/svgs";
-import { LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
+import { getImageLocal, LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
 import { MyButton } from "./MyButton";
 import { Divider, Space } from "antd";
-import { drawStar, fillTextLines, formatToPrint, formatToRadio } from "../utils/drawTools";
+import { fillTextLines, formatToPrint, formatToRadio } from "../utils/drawTools";
 
 interface characterCompProps {
   character1: any,
@@ -15,6 +15,50 @@ interface characterCompProps {
 const CharacterComp = ({ character1, player1, character2, player2 } : characterCompProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [fresh, setFresh] = useState<boolean>(false);
+
+  const formatToInt = (value: number) => {
+    return value.toFixed(0);
+  };
+
+  const formatToRadio = (value: number) => {
+    return (value * 100).toFixed(1) + "%";
+  };
+
+  const formatToPrint = (value: number, id: number) => {
+    if (id < 4) return formatToInt(value);
+    return formatToRadio(value);
+  };
+
+  const fillTextLines = (context: any, text: string, sx: number, sy: number, maxLength: number, lineHeight: number, maxLines: number) => {
+    if (maxLines == 0) return;
+    if (context!.measureText(text).width <= maxLength) {
+      context!.fillText(text, sx, sy);
+    } else {
+      let endpos = 0;
+      for (let i = 0; i < text.length; ++i) {
+        if (text[i] === " ") {
+          if (context!.measureText(text.substring(0, i)).width <= maxLength || endpos === 0) {
+            endpos = i;
+          } else {
+            break;
+          }
+        }
+      }
+      if (endpos === 0) endpos = text.length;
+      context!.fillText(text.substring(0, endpos), sx, sy, maxLength);
+      fillTextLines(context, text.substring(endpos + 1), sx, sy + lineHeight, maxLength, lineHeight, maxLines - 1);
+    }
+  };
+
+  const drawStar = (context: any, cx: number, cy: number, r: number, color: string) => {
+    context!.beginPath();
+    context!.arc(cx + r, cy + r, r, Math.PI, 1.5 * Math.PI);
+    context!.arc(cx + r, cy - r, r, 0.5 * Math.PI, Math.PI);
+    context!.arc(cx - r, cy + r, r, 1.5 * Math.PI, 2 * Math.PI);
+    context!.arc(cx - r, cy - r, r, 0, 0.5 * Math.PI);
+    context!.fillStyle = color;
+    context!.fill();
+  };
 
   const Element: string = character1.element.name;
   const ElementId: string = character1.element.id;
@@ -58,7 +102,7 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
       lightConeImage.onload = () => {
         context!.drawImage(lightConeImage, lightConeLeft, 0, lightConeX, lightConeY);
         for (let i = 0; i < character.light_cone.rarity; ++i) {
-          drawStar(context, lightConeLeft + 18 + 12 * i, sy + 165, 7, 5);
+          drawStar(context, lightConeLeft + 18 + 12 * i, sy + 165, 7, RarityRGB[5]);
         }
       };
 
@@ -183,7 +227,8 @@ const CharacterComp = ({ character1, player1, character2, player2 } : characterC
     const CharacterX = CardY;
 
     characterImage.onload = () => {
-      context!.drawImage(characterImage, 0, 0, 1024, 1024, CharacterLeft, 0, CardY, CardY);
+      context!.drawImage(characterImage, getImageLocal(character1.id)[0], getImageLocal(character1.id)[1], (CharacterX * 1024 / CardY / 2) * 2, 1024, CharacterLeft, 0, CardY, CardY);
+      // context!.drawImage(characterImage, 0, 0, 1024, 1024, CharacterLeft, 0, CardY, CardY);
       const myGradient = context!.createLinearGradient(CharacterLeft, 0, CharacterLeft + CharacterX * 0.3, 0);
       myGradient.addColorStop(0, "rgba(50, 50, 50, 0.5)");
       myGradient.addColorStop(1, "rgba(50, 50, 50, 0)");

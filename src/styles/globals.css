@@ -1,6 +1,7 @@
 @font-face {  
   font-family: HanYiWenHei-85W;  
   src: url('../../public/fonts/zh-cn.woff2');
+  font-display: swap;
 }
 
 html,

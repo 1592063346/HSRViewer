@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { lockSvg } from "../constants/svgs";
-import { LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
+import { ASSET_URL } from "../constants/constants";
+import { getImageLocal, LEVEL_LIMITS, RarityRGB, ToRoman } from "../constants/characterConfig";
 import { MyButton } from "./MyButton";
 import { Divider, Space } from "antd";
-import { drawStar, fillTextLines, formatToPrint, formatToRadio } from "../utils/drawTools";
 
 interface characterCardProps {
   character: any,
@@ -13,7 +13,51 @@ interface characterCardProps {
 const CharacterCard = ({ character, player } : characterCardProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [fresh, setFresh] = useState<boolean>(false);
-  
+
+  const formatToInt = (value: number) => {
+    return value.toFixed(0);
+  };
+
+  const formatToRadio = (value: number) => {
+    return (value * 100).toFixed(1) + "%";
+  };
+
+  const formatToPrint = (value: number, id: number) => {
+    if (id < 4) return formatToInt(value);
+    return formatToRadio(value);
+  };
+
+  const fillTextLines = (context: any, text: string, sx: number, sy: number, maxLength: number, lineHeight: number, maxLines: number) => {
+    if (maxLines == 0) return;
+    if (context!.measureText(text).width <= maxLength) {
+      context!.fillText(text, sx, sy);
+    } else {
+      let endpos = 0;
+      for (let i = 0; i < text.length; ++i) {
+        if (text[i] === " ") {
+          if (context!.measureText(text.substring(0, i)).width <= maxLength || endpos === 0) {
+            endpos = i;
+          } else {
+            break;
+          }
+        }
+      }
+      if (endpos === 0) endpos = text.length;
+      context!.fillText(text.substring(0, endpos), sx, sy, maxLength);
+      fillTextLines(context, text.substring(endpos + 1), sx, sy + lineHeight, maxLength, lineHeight, maxLines - 1);
+    }
+  };
+
+  const drawStar = (context: any, cx: number, cy: number, r: number, color: string) => {
+    context!.beginPath();
+    context!.arc(cx + r, cy + r, r, Math.PI, 1.5 * Math.PI);
+    context!.arc(cx + r, cy - r, r, 0.5 * Math.PI, Math.PI);
+    context!.arc(cx - r, cy + r, r, 1.5 * Math.PI, 2 * Math.PI);
+    context!.arc(cx - r, cy - r, r, 0, 0.5 * Math.PI);
+    context!.fillStyle = color;
+    context!.fill();
+  };
+
   const download = (canvas: any) => {
     let a = document.createElement("a");
     const URL = canvas.toDataURL("image/png", 1);
@@ -45,8 +89,8 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
     const CharacterX = CardY;
 
     characterImage.onload = () => {
-      console.log(character.id);
-      context!.drawImage(characterImage, 0, 0, 1024, 1024, 0, 0, CardY, CardY);
+      // console.log(character.id);
+      context!.drawImage(characterImage, getImageLocal(character.id)[0], getImageLocal(character.id)[1], (CharacterX * 1024 / CardY / 2) * 2, 1024, 0, 0, CharacterX, CardY);
       const myGradient = context!.createLinearGradient(0, 0, CharacterX * 0.3, 0);
       myGradient.addColorStop(0, "rgba(50, 50, 50, 0.5)");
       myGradient.addColorStop(1, "rgba(50, 50, 50, 0)");
@@ -139,7 +183,6 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
 
     if (!character.light_cone) {
       context!.fillStyle="#FFFFFF";
-      context!.font = "20px HanYiWenHei-85W";
       context!.fillText("No Light Cone.", lightConeCenterX, lightConeCenterY);
     } else {
       const lightConeImage = new Image();
@@ -149,7 +192,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       lightConeImage.onload = () => {
         context!.drawImage(lightConeImage, lightConeLeft, 0, lightConeX, lightConeY);
         for (let i = 0; i < character.light_cone.rarity; ++i) {
-          drawStar(context, lightConeLeft + 18 + 12 * i, 165, 7, 5);
+          drawStar(context, lightConeLeft + 18 + 12 * i, 165, 7, RarityRGB[5]);
         }
       };
 
@@ -196,15 +239,10 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       }
     }
 
-    const Display: string[] = ["HP", "ATK", "DEF", "SPD", "CRIT Rate", "CRIT DMG", "Break Effect", "Outgoing Healing Boost", "Energy Regeneration Rate", "Effect Hit Rate", "Effect RES", Element + " DMG Boost"];
-    const DisplayURL: string[] = ["MaxHP", "Attack", "Defence", "Speed", "CriticalChance", "CriticalDamage", "BreakUp", "HealRatio", "EnergyRecovery", "StatusProbability", "StatusResistance", ElementId + "AddedRatio"];
     const attributes: {[key : string] : {image: HTMLImageElement, value: number}} = {};
 
     for (let i = 0; i < character.attributes.length; ++i) {
       attributes[character.attributes[i].name] = {image: new Image(), value: character.attributes[i].value};
-      // energy recharge
-      if (character.attributes[i].name === Display[8]) attributes[Display[8]].value += 1;
-      
       attributes[character.attributes[i].name].image.src = character.attributes[i].icon;
       attributes[character.attributes[i].name].image.setAttribute("crossOrigin", "anonymous");
     }
@@ -212,21 +250,20 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
     for (let i = 0; i < character.additions.length; ++i) {
       if (attributes[character.additions[i].name] === undefined) {
         attributes[character.additions[i].name] = {image: new Image(), value: character.additions[i].value};
-        // energy recharge
-        if (character.additions[i].name === Display[8]) attributes[Display[8]].value += 1;
-
         attributes[character.additions[i].name].image.src = character.additions[i].icon;
         attributes[character.additions[i].name].image.setAttribute("crossOrigin", "anonymous");
       } else {
         attributes[character.additions[i].name].value += character.additions[i].value;
       }
     }
+
+    const Display: string[] = ["HP", "ATK", "DEF", "SPD", "CRIT Rate", "CRIT DMG", "Break Effect", "Outgoing Healing Boost", "Energy Regeneration Rate", "Effect Hit Rate", "Effect RES", Element + " DMG Boost"];
+    const DisplayURL: string[] = ["MaxHP", "Attack", "Defence", "Speed", "CriticalChance", "CriticalDamage", "BreakUp", "HealRatio", "EnergyRecovery", "StatusProbability", "StatusResistance", ElementId + "AddedRatio"];
     
     const attributeUp = lightConeY + 15;
     const attributeLeft = lightConeLeft;
-    const attributeLeftCol = 180;
-    const attributeRightCol = 260;
-    const attributeMid = attributeLeft + attributeLeftCol;
+    const attributeCol = 220;
+    const attributeMid = attributeLeft + attributeCol;
     const attributeSpace = 45;
 
     // 2 columns
@@ -234,22 +271,22 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       if (attributes[Display[i]] === undefined) {
         attributes[Display[i]] = {image: new Image(), value: 0};
         attributes[Display[i]].image.setAttribute("crossOrigin", "anonymous");
-        attributes[Display[i]].image.src = "/srasset/icon/property/Icon" + DisplayURL[i] + ".png";
+        attributes[Display[i]].image.src = ASSET_URL + "/icon/property/Icon" + DisplayURL[i] + ".png";
       }
       attributes[Display[i]].image.onload = () => {
-        if (i < 3) {
-          context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + i * attributeSpace, attributeSize, attributeSize);
+        if (i % 2 === 0) {
+          context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + i / 2 * attributeSpace, attributeSize, attributeSize);
         } else {
-          context!.drawImage(attributes[Display[i]].image, attributeMid, attributeUp + (i - 3) * attributeSpace, attributeSize, attributeSize);
+          context!.drawImage(attributes[Display[i]].image, attributeMid, attributeUp + (i - 1) / 2 * attributeSpace, attributeSize, attributeSize);
         }
         context!.font = "18px HanYiWenHei-85W";
         context!.fillStyle = "rgba(255, 255, 255, 1)";
-        if (i < 3) {
-          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + i * attributeSpace + 25);
-          context!.fillText(Display[i], attributeLeft + attributeSize, attributeUp + i * attributeSpace + 25);
+        if (i % 2 === 0) {
+          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + i / 2 * attributeSpace + 25);
+          context!.fillText(Display[i], attributeLeft + attributeSize, attributeUp + i / 2 * attributeSpace + 25);
         } else {
-          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid + attributeRightCol - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + (i - 3) * attributeSpace + 25);
-          context!.fillText(Display[i], attributeMid + attributeSize, attributeUp + (i - 3) * attributeSpace + 25);
+          context!.fillText(formatToPrint(attributes[Display[i]].value, i), attributeMid + attributeCol - 10 - context!.measureText(formatToPrint(attributes[Display[i]].value, i)).width, attributeUp + (i - 1) / 2 * attributeSpace + 25);
+          context!.fillText(Display[i], attributeMid + attributeSize, attributeUp + (i - 1) / 2 * attributeSpace + 25);
         }
       };
     }
@@ -260,18 +297,18 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         attributes[Display[i]].image.setAttribute("crossOrigin", "anonymous");
         // energy recharge
         if (i === 8) attributes[Display[i]].value = 1;
-        attributes[Display[i]].image.src = "/srasset/icon/property/Icon" + DisplayURL[i] + ".png";
+        attributes[Display[i]].image.src = ASSET_URL + "/icon/property/Icon" + DisplayURL[i] + ".png";
       }
       attributes[Display[i]].image.onload = () => {
         context!.drawImage(attributes[Display[i]].image, attributeLeft, attributeUp + (i - 3) * attributeSpace, attributeSize, attributeSize);
         context!.font = "18px HanYiWenHei-85W";
         context!.fillStyle = "rgba(255, 255, 255, 1)";
-        context!.fillText(formatToRadio(attributes[Display[i]].value), attributeMid + attributeRightCol - 10 - context!.measureText(formatToRadio(attributes[Display[i]].value)).width, attributeUp + (i - 3) * attributeSpace + 25);
+        context!.fillText(formatToRadio(attributes[Display[i]].value), attributeMid + attributeCol - 10 - context!.measureText(formatToRadio(attributes[Display[i]].value)).width, attributeUp + (i - 3) * attributeSpace + 25);
         context!.fillText(Display[i], attributeLeft + attributeSize, attributeUp + (i - 3) * attributeSpace + 25);
       };
     }
     
-    const relicLeft = attributeLeft + attributeLeftCol + attributeRightCol + 25;
+    const relicLeft = attributeLeft + 2 * attributeCol + 25;
     const relicUp = 20;
     const relicSpace = 97;
     const relicSize = 90;
@@ -298,7 +335,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
         relics[pos].image.onload = () => {
           context!.drawImage(relics[i].image, relicLeft, relicUp + pos * relicSpace, relicSize, relicSize);
           for (let j = 0; j < character.relics[i].rarity; ++j) {
-            drawStar(context, relicLeft, relicUp + pos * relicSpace + relicSpace - 20 - j * 2 * starSize, starSize, character.relics[i].rarity);
+            drawStar(context, relicLeft, relicUp + pos * relicSpace + relicSpace - 20 - j * 2 * starSize, starSize, RarityRGB[character.relics[i].rarity]);
           }
           context!.font = "18px HanYiWenHei-85W";
           context!.fillStyle = "rgba(255, 255, 255, 1)";
@@ -343,7 +380,7 @@ const CharacterCard = ({ character, player } : characterCardProps) => {
       <Space>
         <MyButton text="REFRESH" onClick={() => setFresh(!fresh)} />
         <MyButton text="DOWNLOAD" onClick={() => download(canvasRef.current)} />
-        <div style={{ fontSize: 16, color: "rgb(185, 185, 185)" }}>P.S. Please download after the image has been completely loaded.</div>
+        <div style={{ fontSize: 16, color: "rgb(185, 185, 185)" }}>P.S. Please wait until the image is completely loaded.</div>
       </Space>
       <Divider />
     </Space>

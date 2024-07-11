@@ -31,13 +31,3 @@ export const fillTextLines = (context: any, text: string, sx: number, sy: number
     fillTextLines(context, text.substring(endpos + 1), sx, sy + lineHeight, maxLength, lineHeight, maxLines - 1);
   }
 };
-
-export const drawStar = (context: any, cx: number, cy: number, r: number, rarity: number) => {
-  const star = new Image();
-  star.src = "/srasset/icon/rarity/rarity-" + rarity + "-star.png";
-
-  star.onload = () => {
-    context.drawImage(star, cx - r, cy - r, 2 * (r + 1), 2 * (r + 1));
-  };
-  
-};

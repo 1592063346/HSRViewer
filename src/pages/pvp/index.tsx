@@ -15,7 +15,7 @@ const HomePage = () => {
 
   const [inputUid1, setInputUid1] = useState<string>("");
   const [inputUid2, setInputUid2] = useState<string>("");
-  const [inputCharacterId, setInputCharacterId] = useState<number>(1008);
+  const [inputCharacterId, setInputCharacterId] = useState<number>(1308);
 
   const go = () => {
     let path: string = "/pvp/show?";
